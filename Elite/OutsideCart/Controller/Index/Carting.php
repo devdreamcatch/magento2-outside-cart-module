@@ -56,11 +56,12 @@ class Carting extends \Magento\Framework\App\Action\Action
             $quote = $this->checkoutSession->getQuote();
             $params = array();
             /* Get product id from a URL like /outsidecart/index/carting?product=1_1,2_3.... */
-            if(!isset($_GET['product'])) 
+            $product_str = $this->getRequest()->getParam('product');
+            
+            if(!isset($product_str)) 
             {
                 $this->getResponse()->setRedirect('/');
             }
-            $product_str = $_GET['product'];
             $pIds = explode(',', $product_str);
 
              $allItems = $quote->getAllVisibleItems();
@@ -97,6 +98,6 @@ class Carting extends \Magento\Framework\App\Action\Action
             $this->messageManager->addException($e, __('error.'));
         }
         /*cart page*/
-        $this->getResponse()->setRedirect('/checkout/cart/index');
+        $this->getResponse()->setRedirect('/checkout');
     }
 }
